@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>코리 컬렉팅 게임 - 로딩 중</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #e3f2fd; /* 앱 프레임 외부 배경색 */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        /* 앱 프레임 컨테이너 스타일 */
+        .app-frame {
+            width: 100%;
+            max-width: 384px; /* Tailwind max-w-sm */
+            height: 90vh; /* 다른 화면과 동일한 높이 */
+            background-color: #ffffff; /* 앱 프레임 배경색 (로딩 이미지 위에 덮일 색) */
+            border-radius: 1.5rem; /* rounded-3xl */
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1); /* shadow-xl */
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center; /* 스피너와 텍스트를 세로 중앙 정렬 */
+            align-items: center; /* 스피너와 텍스트를 가로 중앙 정렬 */
+
+            /* 로딩 배경 이미지를 앱 프레임 내부에 적용 */
+            background-image: url('https://placehold.co/384x800/64B5F6/FFFFFF?text=Loading+Background'); /* 모바일 비율에 맞는 예시 이미지 */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        .spinner {
+            border: 8px solid #bfdbfe; /* Light blue */
+            border-top: 8px solid #3b82f6; /* Blue */
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .loading-text {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #ffffff; /* 텍스트 색상을 흰색으로 변경하여 배경 이미지 위에서 잘 보이도록 */
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.5); /* 텍스트 그림자 추가 */
+        }
+    </style>
+</head>
+<body>
+    <div class="app-frame">
+        <div class="spinner"></div>
+        <div class="loading-text">코리 컬렉팅 게임 로딩 중...</div>
+    </div>
+
+    <script>
+        // 2초 후에 main_game.html로 이동합니다.
+        setTimeout(() => {
+            window.location.href = 'main_game.html';
+        }, 2000); // 2000ms = 2초
+    </script>
+</body>
+</html>

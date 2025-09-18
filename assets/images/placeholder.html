@@ -1,0 +1,200 @@
+<!-- 이미지 플레이스홀더 생성 스크립트 -->
+<script>
+// Canvas를 이용해서 플레이스홀더 이미지들을 생성하는 함수들
+
+function createMainBackground() {
+    const canvas = document.createElement('canvas');
+    canvas.width = 513;
+    canvas.height = 770;
+    const ctx = canvas.getContext('2d');
+
+    // 그라데이션 배경
+    const gradient = ctx.createLinearGradient(0, 0, 0, 770);
+    gradient.addColorStop(0, '#87CEEB');
+    gradient.addColorStop(0.5, '#F0F8FF');
+    gradient.addColorStop(1, '#E0F6FF');
+
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0, 0, 513, 770);
+
+    // 구름 그리기
+    ctx.fillStyle = 'rgba(255,255,255,0.8)';
+    ctx.beginPath();
+    ctx.ellipse(100, 120, 25, 15, 0, 0, 2 * Math.PI);
+    ctx.fill();
+
+    // 태양 그리기
+    ctx.fillStyle = '#FFD700';
+    ctx.beginPath();
+    ctx.arc(400, 100, 40, 0, 2 * Math.PI);
+    ctx.fill();
+
+    // 잔디 그리기
+    const grassGradient = ctx.createLinearGradient(0, 450, 0, 770);
+    grassGradient.addColorStop(0, '#90EE90');
+    grassGradient.addColorStop(1, '#228B22');
+
+    ctx.fillStyle = grassGradient;
+    ctx.fillRect(0, 450, 513, 320);
+
+    return canvas.toDataURL();
+}
+
+function createDefaultCory() {
+    const canvas = document.createElement('canvas');
+    canvas.width = 232;
+    canvas.height = 215;
+    const ctx = canvas.getContext('2d');
+
+    // 몸체
+    const bodyGradient = ctx.createRadialGradient(116, 80, 0, 116, 80, 80);
+    bodyGradient.addColorStop(0, '#90EE90');
+    bodyGradient.addColorStop(1, '#32CD32');
+
+    ctx.fillStyle = bodyGradient;
+    ctx.beginPath();
+    ctx.ellipse(116, 130, 60, 80, 0, 0, 2 * Math.PI);
+    ctx.fill();
+
+    // 머리
+    ctx.beginPath();
+    ctx.ellipse(116, 70, 45, 50, 0, 0, 2 * Math.PI);
+    ctx.fill();
+
+    // 눈
+    ctx.fillStyle = '#FFD700';
+    ctx.beginPath();
+    ctx.arc(100, 60, 8, 0, 2 * Math.PI);
+    ctx.fill();
+    ctx.beginPath();
+    ctx.arc(132, 60, 8, 0, 2 * Math.PI);
+    ctx.fill();
+
+    // 눈동자
+    ctx.fillStyle = '#000';
+    ctx.beginPath();
+    ctx.arc(100, 60, 4, 0, 2 * Math.PI);
+    ctx.fill();
+    ctx.beginPath();
+    ctx.arc(132, 60, 4, 0, 2 * Math.PI);
+    ctx.fill();
+
+    // 다리
+    ctx.fillStyle = bodyGradient;
+    for (let i = 0; i < 4; i++) {
+        const x = 80 + (i % 2) * 72;
+        const y = 160 + Math.floor(i / 2) * 30;
+        ctx.beginPath();
+        ctx.ellipse(x, y, 12, 20, 0, 0, 2 * Math.PI);
+        ctx.fill();
+    }
+
+    // 꼬리
+    ctx.beginPath();
+    ctx.ellipse(116, 200, 20, 35, 0, 0, 2 * Math.PI);
+    ctx.fill();
+
+    return canvas.toDataURL();
+}
+
+function createAlarmIcon() {
+    const canvas = document.createElement('canvas');
+    canvas.width = 71;
+    canvas.height = 71;
+    const ctx = canvas.getContext('2d');
+
+    // 배경
+    ctx.fillStyle = '#6B73FF';
+    ctx.beginPath();
+    ctx.roundRect(5, 5, 61, 61, 8);
+    ctx.fill();
+
+    // 메일함 모양
+    ctx.strokeStyle = '#4C63D2';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.roundRect(15, 25, 41, 26, 3);
+    ctx.stroke();
+
+    // 메일함 뚜껑
+    ctx.beginPath();
+    ctx.moveTo(15, 25);
+    ctx.lineTo(35.5, 38);
+    ctx.lineTo(56, 25);
+    ctx.stroke();
+
+    return canvas.toDataURL();
+}
+
+function createAlarmDot() {
+    const canvas = document.createElement('canvas');
+    canvas.width = 24;
+    canvas.height = 24;
+    const ctx = canvas.getContext('2d');
+
+    // 빨간 점
+    ctx.fillStyle = '#FF3B30';
+    ctx.beginPath();
+    ctx.arc(12, 12, 10, 0, 2 * Math.PI);
+    ctx.fill();
+
+    // 테두리
+    ctx.strokeStyle = '#fff';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
+    return canvas.toDataURL();
+}
+
+function createMenuTab() {
+    const canvas = document.createElement('canvas');
+    canvas.width = 119;
+    canvas.height = 65;
+    const ctx = canvas.getContext('2d');
+
+    // 탭 배경
+    ctx.fillStyle = 'rgba(107, 115, 255, 0.8)';
+    ctx.beginPath();
+    ctx.roundRect(2, 2, 115, 61, 8);
+    ctx.fill();
+
+    // 테두리
+    ctx.strokeStyle = '#4C63D2';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
+    return canvas.toDataURL();
+}
+
+// 이미지들을 생성하고 다운로드할 수 있게 하는 함수
+function downloadGeneratedImages() {
+    const images = {
+        'main_background.png': createMainBackground(),
+        'default_cory.png': createDefaultCory(),
+        'alarm.png': createAlarmIcon(),
+        'alarm_dot.png': createAlarmDot(),
+        'menu.png': createMenuTab()
+    };
+
+    Object.entries(images).forEach(([filename, dataUrl]) => {
+        const link = document.createElement('a');
+        link.download = filename;
+        link.href = dataUrl;
+        link.click();
+    });
+}
+
+// 페이지 로드 시 이미지 생성 버튼 표시
+document.addEventListener('DOMContentLoaded', function() {
+    const button = document.createElement('button');
+    button.textContent = '플레이스홀더 이미지 생성 및 다운로드';
+    button.onclick = downloadGeneratedImages;
+    button.style.padding = '10px 20px';
+    button.style.fontSize = '16px';
+    button.style.margin = '20px';
+    document.body.appendChild(button);
+});
+</script>
+
+<h1>이미지 플레이스홀더 생성기</h1>
+<p>위의 버튼을 클릭하면 Figma 디자인을 기반으로 한 플레이스홀더 이미지들이 생성됩니다.</p>

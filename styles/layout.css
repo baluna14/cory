@@ -1,0 +1,167 @@
+/* Layout Styles */
+
+/* Header */
+.header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: var(--header-height);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 18px 21px 0;
+    z-index: 10;
+}
+
+.screen-title {
+    font-family: var(--font-pixel);
+    font-size: 30px;
+    line-height: 1em;
+    letter-spacing: -2.5%;
+    color: var(--primary-pink);
+    text-shadow: var(--text-shadow);
+    margin: 0;
+}
+
+/* Alarm Container */
+.alarm-container {
+    position: relative;
+    width: 71px;
+    height: 71px;
+}
+
+.alarm-icon {
+    width: 71px;
+    height: 71px;
+    cursor: pointer;
+}
+
+.alarm-dot {
+    position: absolute;
+    top: 6px;
+    right: 0px;
+    width: 24px;
+    height: 24px;
+}
+
+/* Main Content */
+.main-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 101px; /* Adjusted for new nav height */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Cory Container */
+.cory-container {
+    position: absolute;
+    left: 229px;
+    top: 475px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.representative-cory {
+    width: 232.39px;
+    height: 214.69px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.representative-cory:hover {
+    transform: scale(1.05);
+}
+
+.cory-arrow {
+    position: absolute;
+    top: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 5;
+}
+
+.cory-arrow.visible {
+    opacity: 1;
+}
+
+.arrow-icon {
+    width: 69px;
+    height: 36px;
+    filter: drop-shadow(var(--box-shadow));
+}
+
+/* Bottom Navigation */
+.bottom-nav {
+    position: absolute;
+    bottom: 0;
+    left: 7px;
+    right: 7px;
+    height: 101px; /* Increased to accommodate hidden menu items */
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 6px;
+    z-index: 10;
+}
+
+.nav-item {
+    position: relative;
+    width: 120px;
+    height: 101px; /* Full height to accommodate both positions */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    overflow: hidden;
+}
+
+/* Default state: inactive menu items are pushed down */
+.nav-item:not(.active) {
+    transform: translateY(36px);
+}
+
+/* Hover effect: bring inactive menu items up */
+.nav-item:not(.active):hover {
+    transform: translateY(0px);
+}
+
+/* Active menu item stays at normal position */
+.nav-item.active {
+    transform: translateY(0px);
+}
+
+.nav-icon {
+    width: 119.35px;
+    height: 65px;
+    position: absolute;
+    bottom: 0;
+}
+
+.nav-label {
+    position: absolute;
+    bottom: 44px; /* 60px - 16px from bottom of icon */
+    font-family: var(--font-pixel);
+    font-size: 14px;
+    line-height: 1em;
+    letter-spacing: -2.5%;
+    color: var(--text-dark);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.nav-item.active .nav-label {
+    color: var(--text-dark);
+    opacity: 1;
+}

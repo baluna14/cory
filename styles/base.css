@@ -1,0 +1,128 @@
+/* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* CSS Variables */
+:root {
+    /* Colors */
+    --primary-pink: #E395A4;
+    --text-dark: #463E3E;
+    --text-white: #FFFFFF;
+    --shadow-color: #1E3445;
+    --overlay-white: rgba(255, 255, 255, 0.3);
+    --background-gray: #505050;
+
+    /* Fonts */
+    --font-pixel: 'Press Start 2P', system-ui;
+    --font-regular: 'Nunito', system-ui;
+
+    /* Dimensions */
+    --screen-width: 513px;
+    --screen-height: 770px;
+    --nav-height: 60px;
+    --header-height: 80px;
+
+    /* Effects */
+    --text-shadow: 4px 4px 0px var(--shadow-color);
+    --box-shadow: 3px 3px 0px var(--shadow-color);
+}
+
+/* Base Typography */
+.press-start-2p-regular {
+    font-family: var(--font-pixel);
+    font-weight: 400;
+    font-style: normal;
+}
+
+body {
+    font-family: var(--font-pixel);
+    background: #000;
+    overflow: hidden;
+    user-select: none;
+}
+
+/* App Container */
+#app {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: #000;
+}
+
+#main-container {
+    position: relative;
+    width: var(--screen-width);
+    height: var(--screen-height);
+    overflow: hidden;
+}
+
+#main-container.home-view {
+    background-image: url('../assets/images/main_background.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+#main-container.talk-view {
+    background-image: url('../assets/images/background.png');
+    background-size: 100% 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+#main-container.journey-view {
+    background-image: url('../assets/images/background.png');
+    background-size: 100% 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+#main-container.journey-view::before {
+    content: '';
+    position: absolute;
+    top: -20px;
+    left: 50px;
+    width: 400px;
+    height: 600px;
+    background-image: url('../assets/images/leaves3.png');
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.6;
+    z-index: 1;
+    transform: rotate(-5deg);
+}
+
+#main-container.journey-view::after {
+    content: '';
+    position: absolute;
+    top: 100px;
+    left: -150px;
+    width: 500px;
+    height: 700px;
+    background-image: url('../assets/images/leaves3.png');
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.5;
+    z-index: 1;
+    transform: rotate(10deg);
+}
+
+#main-container.pocket-view {
+    background-image: url('../assets/images/background.png');
+    background-size: 100% 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+#main-container.profile-view {
+    background-image: url('../assets/images/background.png');
+    background-size: 100% 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+}

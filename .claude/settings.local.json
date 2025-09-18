@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__figma-dev__get_figma_data"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

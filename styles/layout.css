@@ -61,18 +61,21 @@
 /* Cory Container */
 .cory-container {
     position: absolute;
-    left: 229px;
-    top: 475px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -20%);
     display: flex;
     flex-direction: column;
     align-items: center;
+    z-index: 5;
 }
 
 .representative-cory {
-    width: 232.39px;
-    height: 214.69px;
+    width: 280px;
+    height: 260px;
     cursor: pointer;
     transition: transform 0.2s ease;
+    object-fit: contain;
 }
 
 .representative-cory:hover {

@@ -1,0 +1,31 @@
+<!-- Home View -->
+<div class="view view-home active" id="homeView">
+    <!-- Alert Message (pointing to alarm icon) -->
+    <div class="alert-message hidden" id="alertMessage">
+        <div class="message-bubble">
+            <span class="message-text">새로운 알람이 있어요</span>
+        </div>
+        <div class="message-arrow"></div>
+    </div>
+
+    <!-- Representative Cory (center of screen) -->
+    <div class="cory-container" id="coryContainer">
+        <div class="cory-arrow" id="coryArrow">
+            <img src="assets/images/arrow.svg" alt="화살표" class="arrow-icon">
+        </div>
+        <img src="assets/images/default_cory.png" alt="대표 코리" class="representative-cory" id="representativeCory">
+    </div>
+
+    <!-- Talk Dialog -->
+    <div class="talk-dialog-overlay hidden" id="talkDialogOverlay">
+        <div class="talk-dialog">
+            <div class="dialog-content">
+                <div class="dialog-text">코리랑 같이 대화할래요?</div>
+            </div>
+            <div class="dialog-buttons">
+                <button class="dialog-btn no-btn" id="dialogNoBtn">NO</button>
+                <button class="dialog-btn yes-btn" id="dialogYesBtn">YES</button>
+            </div>
+        </div>
+    </div>
+</div>

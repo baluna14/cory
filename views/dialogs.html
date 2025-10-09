@@ -1,0 +1,103 @@
+<!-- Representative Cory Selection Dialog -->
+<div class="representative-dialog-overlay hidden" id="representativeDialogOverlay">
+    <div class="talk-dialog">
+        <div class="dialog-content">
+            <div class="dialog-text" id="representativeDialogText">첫번째 코리를 대표 코리로 지정할까요?</div>
+        </div>
+        <div class="dialog-buttons">
+            <button class="dialog-btn no-btn" id="representativeNoBtn">NO</button>
+            <button class="dialog-btn yes-btn" id="representativeYesBtn">YES</button>
+        </div>
+    </div>
+</div>
+
+<!-- Exploration Confirmation Dialog -->
+<div class="exploration-dialog-overlay hidden" id="explorationDialogOverlay">
+    <div class="talk-dialog">
+        <div class="dialog-content">
+            <div class="dialog-text">새로운 탐험을 시작할까요? 지금 주인님이 있는 위치에서 주변 사진을 찍어 올려주세요!</div>
+        </div>
+        <div class="dialog-buttons">
+            <button class="dialog-btn no-btn" id="explorationNoBtn">NO</button>
+            <button class="dialog-btn yes-btn" id="explorationYesBtn">YES</button>
+        </div>
+    </div>
+</div>
+
+<!-- Photo Upload Confirmation Dialog -->
+<div class="photo-upload-dialog-overlay hidden" id="photoUploadDialogOverlay">
+    <div class="photo-upload-container">
+        <!-- Photo Preview Image -->
+        <img src="" alt="선택한 사진" class="photo-preview-image" id="photoPreviewImage">
+
+        <!-- Dialog Card -->
+        <div class="talk-dialog photo-upload-dialog">
+            <div class="dialog-content">
+                <div class="dialog-text">이 사진으로 새로운 코리와 함께할까요?</div>
+            </div>
+            <div class="dialog-buttons">
+                <button class="dialog-btn no-btn" id="photoUploadNoBtn">NO</button>
+                <button class="dialog-btn yes-btn" id="photoUploadYesBtn">YES</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Cancel Exploration Confirmation Dialog -->
+<div class="cancel-exploration-dialog-overlay hidden" id="cancelExplorationDialogOverlay">
+    <div class="talk-dialog">
+        <div class="dialog-content">
+            <div class="dialog-text">탐험을 그만할까요? 현재 탐험을 그만두고 새로운 코리를 찾아 탐험을 시작할 수 있어요.</div>
+        </div>
+        <div class="dialog-buttons">
+            <button class="dialog-btn no-btn" id="cancelExplorationNoBtn">NO</button>
+            <button class="dialog-btn yes-btn" id="cancelExplorationYesBtn">YES</button>
+        </div>
+    </div>
+</div>
+
+<!-- New Cory Alarm Dialog -->
+<div class="new-cory-dialog-overlay hidden" id="newCoryDialogOverlay">
+    <div class="new-cory-dialog-container">
+        <!-- New Cory Image -->
+        <img src="" alt="새로운 코리" class="new-cory-image" id="newCoryImage">
+
+        <!-- Dialog Card -->
+        <div class="new-cory-dialog-card">
+            <div class="new-cory-dialog-content">
+                <!-- Title -->
+                <div class="new-cory-dialog-title">새로운 코리를 발견했어요! 대표 코리로 지정할까요?</div>
+
+                <!-- Story Text -->
+                <div class="new-cory-story-text" id="newCoryStoryText"></div>
+            </div>
+        </div>
+
+        <!-- Buttons -->
+        <div class="new-cory-dialog-buttons">
+            <button class="dialog-btn no-btn" id="newCoryNoBtn">NO</button>
+            <button class="dialog-btn yes-btn" id="newCoryYesBtn">YES</button>
+        </div>
+    </div>
+</div>
+
+<!-- Cory Name Edit Dialog -->
+<div class="cory-name-edit-overlay hidden" id="coryNameEditOverlay">
+    <div class="cory-name-edit-container">
+        <!-- Dialog Card -->
+        <div class="talk-dialog">
+            <div class="dialog-content">
+                <div class="dialog-text">새로운 코리의 이름을 변경할 수 있어요.</div>
+
+                <!-- Name Input Container -->
+                <div class="name-input-container">
+                    <input type="text" class="name-input" id="coryNameInput" maxlength="20" placeholder="코리 이름">
+                </div>
+            </div>
+            <div class="cory-name-edit-buttons">
+                <button class="dialog-btn no-btn" id="coryNameSkipBtn">SKIP</button>
+                <button class="dialog-btn yes-btn" id="coryNameConfirmBtn">YES</button>
+            </div>
+        </div>
+    </div>
+</div>

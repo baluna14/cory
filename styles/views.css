@@ -1,24 +1,45 @@
 /* View-specific Styles */
 
-/* Main Home View */
-.view-home {
-    display: block;
-}
-
-.view-home .main-content {
-    background-image: url('../assets/images/main_background.png');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-}
-
 /* Hide views by default */
 .view {
     display: none;
+    position: relative;
+    width: 100%;
+    height: 100%;
 }
 
 .view.active {
     display: block;
+}
+
+/* Main Home View */
+.view-home {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.view-home .cory-container {
+    position: absolute;
+    left: 50%;
+    bottom: 150px;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 5;
+}
+
+.view-home .representative-cory {
+    width: 280px;
+    height: 260px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    object-fit: contain;
+}
+
+.view-home .representative-cory:hover {
+    transform: scale(1.05);
 }
 
 /* Home Talk View */
@@ -398,19 +419,20 @@
 
 .pocket-grid {
     position: absolute;
-    left: 25px;
+    left: 26px;
     top: 85px;
-    right: 25px;
+    right: 26px;
     display: flex;
     flex-direction: column;
-    gap: 100px;
+    gap: 8px;
     padding-bottom: 20px;
 }
 
 .pocket-row {
     display: flex;
-    justify-content: space-between;
-    gap: 20px;
+    justify-content: flex-start;
+    gap: 7px;
+    margin-bottom: 0;
 }
 
 .cory-card {
@@ -484,20 +506,91 @@
     overflow: hidden;
 }
 
+/* Journey Background Image */
+.journey-background-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 513px;
+    height: 770px;
+    background-image: url('../assets/images/journey_background.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: 1;
+}
 
-.journey-radar-container {
-    position: relative;
-    width: 100%;
-    height: 100%;
+/* Journey Leaves Layers */
+.journey-leaves-layer {
+    position: absolute;
+    background-image: url('../assets/images/leaves3.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.7;
     z-index: 2;
 }
 
-.journey-radar {
+.journey-leaves-1 {
+    left: 31.71px;
+    top: -9px;
+    width: 477.84px;
+    height: 783.2px;
+}
+
+.journey-leaves-2 {
+    left: -382.15px;
+    top: 56.07px;
+    width: 1056.29px;
+    height: 1198.5px;
+}
+
+/* Journey Title */
+.journey-title {
+    position: absolute;
+    left: 27px;
+    top: 34px;
+    width: 206px;
+    height: 30px;
+    font-family: var(--font-pixel);
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 1em;
+    letter-spacing: -2.5%;
+    color: var(--primary-pink);
+    text-shadow: var(--text-shadow);
+    margin: 0;
+    z-index: 10;
+}
+
+/* Journey Radar Container */
+.journey-radar-container {
     position: absolute;
     left: 39px;
     top: 194px;
     width: 424px;
     height: 424px;
+    z-index: 3;
+}
+
+.journey-radar {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+/* Journey Idle State */
+.journey-idle-state {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 4;
+}
+
+.journey-idle-state.hidden {
+    display: none;
 }
 
 .radar-arrow {
@@ -506,22 +599,21 @@
     height: 18px;
     cursor: pointer;
     transition: transform 0.2s ease;
-    z-index: 3;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    z-index: 5;
 }
 
 .radar-arrow:hover {
-    transform: scale(1.1);
+    transform: scale(1.15);
 }
 
-.radar-arrow-1 {
-    left: 286px;
-    top: 358px;
+.radar-arrow:active {
+    transform: scale(0.95);
 }
 
-.radar-arrow-2 {
-    left: 183px;
-    top: 480px;
-}
+/* Arrow positions will be set dynamically via JavaScript */
 
 .radar-arrow .arrow-icon {
     width: 27px;
@@ -529,126 +621,97 @@
     filter: brightness(0) saturate(100%) invert(87%) sepia(96%) saturate(6848%) hue-rotate(2deg) brightness(106%) contrast(99%);
 }
 
-.exploration-status {
+/* Journey Exploring State */
+.journey-exploring-state {
     position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    text-align: center;
-    z-index: 4;
-    display: none; /* Hide the exploration status popup */
-}
-
-.status-idle {
-    background: rgba(255, 255, 255, 0.9);
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: var(--box-shadow);
-}
-
-.status-text {
-    font-family: var(--font-pixel);
-    font-size: 12px;
-    color: var(--text-dark);
-    line-height: 1.4;
-    margin: 0;
-}
-
-.exploration-progress {
-    position: absolute;
-    left: 0;
     top: 0;
+    left: 0;
     right: 0;
     bottom: 0;
     z-index: 4;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
 }
 
-.exploration-progress.hidden {
+.journey-exploring-state.hidden {
     display: none;
 }
 
 .exploring-label {
     position: absolute;
-    left: 50%;
+    left: 181px;
     top: 394px;
-    transform: translateX(-50%);
     font-family: 'Nunito', system-ui;
     font-weight: 800;
     font-size: 47px;
     line-height: 1.5em;
     letter-spacing: 1.06%;
     color: var(--text-white);
-    text-stroke: 4px #4A4A4A;
     -webkit-text-stroke: 4px #4A4A4A;
-    text-shadow: none;
     z-index: 5;
 }
 
 .cancel-exploration-button {
     position: absolute;
-    left: 50%;
+    left: 185px;
     top: 453px;
-    transform: translateX(-50%);
-    width: auto;
+    min-width: 122px;
     height: 40px;
     background: #F24E1E;
     border: none;
-    box-shadow: 3px 3px 0px rgba(30, 52, 69, 1);
-    font-family: 'Nunito', system-ui;
-    font-weight: 800;
-    font-size: 17px;
-    color: var(--text-white);
-    padding: 0 20px;
-    cursor: pointer;
-    transition: transform 0.2s ease;
-    z-index: 5;
-}
-
-.cancel-exploration-button:hover {
-    transform: translateX(-50%) scale(1.05);
-}
-
-.cancel-exploration-button:active {
-    transform: translateX(-50%) scale(0.95);
-}
-
-.progress-bar-container {
-    position: absolute;
-    left: 105px;
-    top: 600px;
-    width: 304px;
-    height: 43px;
-    background: #4A4A4A;
-    border: 3px solid var(--text-white);
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 3px 3px 0px rgba(30, 52, 69, 1);
-    z-index: 5;
-}
-
-.progress-bar {
-    height: 100%;
-    background: var(--primary-pink);
-    width: 0%;
-    transition: width 0.3s ease;
-}
-
-.time-remaining {
-    position: absolute;
-    left: 50%;
-    top: 613px;
-    transform: translateX(-50%);
+    box-shadow: 3px 3px 0px 0px rgba(30, 52, 69, 1);
     font-family: 'Nunito', system-ui;
     font-weight: 800;
     font-size: 17px;
     line-height: 1.5em;
     letter-spacing: 2.94%;
     color: var(--text-white);
-    text-stroke: 2px #4A4A4A;
+    padding: 0 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    z-index: 5;
+}
+
+.cancel-exploration-button:hover {
+    transform: scale(1.05);
+}
+
+.cancel-exploration-button:active {
+    transform: scale(0.95);
+}
+
+.progress-bar-image-container {
+    position: absolute;
+    left: 105px;
+    top: 600px;
+    width: 304px;
+    height: 43px;
+    overflow: hidden;
+    z-index: 5;
+}
+
+.progress-bar-image {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 304px;
+    height: 43px;
+    object-fit: cover;
+    object-position: left center;
+    clip-path: inset(0 100% 0 0);
+    transition: clip-path 0.3s ease;
+}
+
+.time-remaining {
+    position: absolute;
+    left: 272px;
+    top: 613px;
+    width: 120px;
+    height: 12px;
+    font-family: 'Nunito', system-ui;
+    font-weight: 800;
+    font-size: 17px;
+    line-height: 1.5em;
+    letter-spacing: 2.94%;
+    color: var(--text-white);
     -webkit-text-stroke: 2px #4A4A4A;
     z-index: 5;
 }

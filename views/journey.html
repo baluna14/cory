@@ -1,0 +1,35 @@
+<!-- Journey View -->
+<div class="view view-journey" id="journeyView">
+    <!-- Background Images -->
+    <div class="journey-background-image"></div>
+    <div class="journey-leaves-layer journey-leaves-1"></div>
+    <div class="journey-leaves-layer journey-leaves-2"></div>
+
+    <!-- Journey Title -->
+    <h1 class="journey-title">Journey</h1>
+
+    <!-- Radar Image -->
+    <div class="journey-radar-container">
+        <img src="assets/images/radar2.png" alt="레이더" class="journey-radar" id="journeyRadar">
+    </div>
+
+    <!-- Idle State: Show exploration arrows -->
+    <div class="journey-idle-state" id="journeyIdleState">
+        <div class="radar-arrow radar-arrow-1" id="radarArrow1">
+            <img src="assets/images/arrow.svg" alt="탐색 화살표" class="arrow-icon">
+        </div>
+        <div class="radar-arrow radar-arrow-2" id="radarArrow2">
+            <img src="assets/images/arrow.svg" alt="탐색 화살표" class="arrow-icon">
+        </div>
+    </div>
+
+    <!-- Exploring State: Show progress -->
+    <div class="journey-exploring-state hidden" id="explorationProgress">
+        <div class="exploring-label">탐험중</div>
+        <button class="cancel-exploration-button" id="cancelExploration">탐험 그만하기</button>
+        <div class="progress-bar-image-container">
+            <img src="assets/images/time_bar_filled.png" alt="Progress" class="progress-bar-image" id="progressBarImage">
+        </div>
+        <div class="time-remaining" id="timeRemaining">00:00 remains</div>
+    </div>
+</div>

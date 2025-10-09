@@ -36,170 +36,7 @@
 
             <!-- Main Content -->
             <main class="main-content">
-                <!-- Home View -->
-                <div class="view view-home active" id="homeView">
-                    <!-- Alert Message -->
-                    <div class="alert-message" id="alertMessage">
-                        <div class="message-bubble">
-                            <span class="message-text">새로운 알람이 있어요</span>
-                        </div>
-                        <div class="message-arrow"></div>
-                    </div>
-
-                    <!-- Representative Cory -->
-                    <div class="cory-container" id="coryContainer">
-                        <div class="cory-arrow" id="coryArrow">
-                            <img src="assets/images/arrow.svg" alt="화살표" class="arrow-icon">
-                        </div>
-                        <img src="assets/images/default_cory.png" alt="대표 코리" class="representative-cory" id="representativeCory">
-                    </div>
-
-                    <!-- Talk Dialog -->
-                    <div class="talk-dialog-overlay hidden" id="talkDialogOverlay">
-                        <div class="talk-dialog">
-                            <div class="dialog-content">
-                                <div class="dialog-text">코리랑 같이 대화할래요?</div>
-                            </div>
-                            <div class="dialog-buttons">
-                                <button class="dialog-btn no-btn" id="dialogNoBtn">NO</button>
-                                <button class="dialog-btn yes-btn" id="dialogYesBtn">YES</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Representative Cory Selection Dialog -->
-                <div class="representative-dialog-overlay hidden" id="representativeDialogOverlay">
-                    <div class="talk-dialog">
-                        <div class="dialog-content">
-                            <div class="dialog-text" id="representativeDialogText">첫번째 코리를 대표 코리로 지정할까요?</div>
-                        </div>
-                        <div class="dialog-buttons">
-                            <button class="dialog-btn no-btn" id="representativeNoBtn">NO</button>
-                            <button class="dialog-btn yes-btn" id="representativeYesBtn">YES</button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Exploration Confirmation Dialog -->
-                <div class="exploration-dialog-overlay hidden" id="explorationDialogOverlay">
-                    <div class="talk-dialog">
-                        <div class="dialog-content">
-                            <div class="dialog-text">새로운 탐험을 시작할까요? 지금 주인님이 있는 위치에서 주변 사진을 찍어 올려주세요!</div>
-                        </div>
-                        <div class="dialog-buttons">
-                            <button class="dialog-btn no-btn" id="explorationNoBtn">NO</button>
-                            <button class="dialog-btn yes-btn" id="explorationYesBtn">YES</button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Photo Upload Confirmation Dialog -->
-                <div class="photo-upload-dialog-overlay hidden" id="photoUploadDialogOverlay">
-                    <div class="talk-dialog">
-                        <div class="dialog-content">
-                            <div class="dialog-text">이 사진으로 새로운 코리와 함께할까요?</div>
-                        </div>
-                        <div class="dialog-buttons">
-                            <button class="dialog-btn no-btn" id="photoUploadNoBtn">NO</button>
-                            <button class="dialog-btn yes-btn" id="photoUploadYesBtn">YES</button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Talk View -->
-                <div class="view view-talk hidden" id="talkView">
-                    <div class="talk-main-area">
-                        <!-- Cory Display Area -->
-                        <div class="cory-display-container">
-                            <div class="cory-name-tag" id="coryNameTag">첫번째 코리</div>
-                            <img src="assets/images/default_cory.png" alt="코리" class="talk-cory-image" id="talkCoryImage">
-                        </div>
-
-                        <!-- Chat Area -->
-                        <div class="chat-container">
-                            <div class="chat-messages" id="chatMessages">
-                                <!-- Chat messages will be dynamically added here -->
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Pocket View -->
-                <div class="view view-pocket" id="pocketView">
-                    <div class="pocket-grid" id="pocketGrid">
-                        <!-- Cory cards will be dynamically generated here -->
-                    </div>
-                </div>
-
-                <!-- Journey View -->
-                <div class="view view-journey" id="journeyView">
-                    <div class="journey-radar-container">
-                        <img src="assets/images/radar.png" alt="레이더" class="journey-radar" id="journeyRadar">
-
-                        <!-- Exploration Arrows -->
-                        <div class="radar-arrow radar-arrow-1" id="radarArrow1">
-                            <img src="assets/images/arrow.svg" alt="탐색 화살표" class="arrow-icon">
-                        </div>
-                        <div class="radar-arrow radar-arrow-2" id="radarArrow2">
-                            <img src="assets/images/arrow.svg" alt="탐색 화살표" class="arrow-icon">
-                        </div>
-
-                        <!-- Exploration Status -->
-                        <div class="exploration-status" id="explorationStatus">
-                            <div class="status-idle">
-                                <p class="status-text">코리를 찾기 위해<br>탐험을 시작하세요!</p>
-                            </div>
-                        </div>
-
-                        <!-- Exploring State -->
-                        <div class="exploration-progress hidden" id="explorationProgress">
-                            <div class="exploring-label">탐험중</div>
-                            <button class="cancel-exploration-button" id="cancelExploration">탐험 그만하기</button>
-                            <div class="progress-bar-container">
-                                <div class="progress-bar" id="progressBar"></div>
-                            </div>
-                            <div class="time-remaining" id="timeRemaining">00:00 remains</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Profile View -->
-                <div class="view view-profile" id="profileView">
-                    <div class="profile-content">
-                        <!-- Profile Container -->
-                        <div class="profile-container">
-                            <!-- Profile Image -->
-                            <div class="profile-image-container" id="profileImageContainer">
-                                <img src="assets/images/profile.png" alt="프로필 이미지" class="profile-image" id="profileImage">
-                            </div>
-
-                            <!-- User Info -->
-                            <div class="user-info">
-                                <div class="user-nickname" id="userNickname">주인</div>
-                                <div class="player-id" id="playerId">PlayerID: 392819274943</div>
-                            </div>
-
-                            <!-- Divider -->
-                            <div class="profile-divider"></div>
-
-                            <!-- Achievement Card -->
-                            <div class="achievement-card">
-                                <div class="achievement-title">Achievement</div>
-                                <div class="achievement-stats">
-                                    <div class="stat-item">
-                                        <div class="stat-number" id="coryCount">3</div>
-                                        <div class="stat-label">획득한 코리</div>
-                                    </div>
-                                    <div class="stat-item">
-                                        <div class="stat-number" id="playTime">140</div>
-                                        <div class="stat-label">총 플레이 시간</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <!-- Views will be dynamically loaded here -->
             </main>
 
             <!-- Talk View Input Area (outside main-content) -->
@@ -230,6 +67,17 @@
         </div>
     </div>
 
+    <!-- Core Scripts -->
+    <script src="scripts/account.js"></script>
+
+    <!-- Manager Scripts -->
+    <script src="scripts/DialogManager.js"></script>
+    <script src="scripts/JourneyManager.js"></script>
+    <script src="scripts/TalkManager.js"></script>
+    <script src="scripts/PocketManager.js"></script>
+    <script src="scripts/ProfileManager.js"></script>
+
+    <!-- Main App -->
     <script src="scripts/app.js"></script>
 </body>
 </html>

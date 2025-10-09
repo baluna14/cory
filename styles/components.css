@@ -3,9 +3,8 @@
 /* Alert Message */
 .alert-message {
     position: absolute;
-    top: 12px;
-    left: 50%;
-    transform: translateX(-50%);
+    top: 90px;
+    right: 30px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -68,7 +67,7 @@
     position: absolute;
     top: 100%;
     left: 50%;
-    transform: translateX(-50%);
+    transform: translateX(-50%) rotate(180deg);
     width: 12px;
     height: 18px;
     background-image: url('../assets/images/arrow.svg');
@@ -306,4 +305,223 @@
 .photo-upload-dialog-overlay.hidden {
     opacity: 0;
     pointer-events: none;
+}
+
+.photo-upload-container {
+    position: relative;
+    width: 400px;
+    height: 479px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.photo-preview-image {
+    position: absolute;
+    left: 16px;
+    top: 0;
+    width: 369px;
+    height: 242px;
+    object-fit: cover;
+    border-radius: 0;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    z-index: 1;
+}
+
+.photo-upload-dialog {
+    position: absolute;
+    left: 0;
+    top: 272px;
+    z-index: 2;
+}
+
+/* Cancel Exploration Confirmation Dialog */
+.cancel-exploration-dialog-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1001;
+    opacity: 1;
+    transition: opacity 0.3s ease;
+}
+
+.cancel-exploration-dialog-overlay.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* New Cory Alarm Dialog */
+.new-cory-dialog-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1001;
+    opacity: 1;
+    transition: opacity 0.3s ease;
+}
+
+.new-cory-dialog-overlay.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.new-cory-dialog-container {
+    position: relative;
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.new-cory-image {
+    position: absolute;
+    left: 105px;
+    top: -175px;
+    width: 188px;
+    height: 155px;
+    object-fit: contain;
+    z-index: 1;
+}
+
+.new-cory-dialog-card {
+    width: 400px;
+    height: 207px;
+    background-image: url('../assets/images/alert_dialog.svg');
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    z-index: 2;
+}
+
+.new-cory-dialog-content {
+    flex: 1;
+    padding: 50px 30px 80px 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.new-cory-dialog-title {
+    font-family: 'Nunito', system-ui;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 1.3;
+    letter-spacing: 3.125%;
+    color: var(--shadow-color);
+    text-align: left;
+}
+
+.new-cory-story-text {
+    font-family: 'Nunito', system-ui;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 1.3;
+    letter-spacing: 3.125%;
+    color: var(--shadow-color);
+    text-align: left;
+    overflow-y: auto;
+    max-height: 80px;
+    padding-right: 5px;
+}
+
+.new-cory-story-text::-webkit-scrollbar {
+    width: 4px;
+}
+
+.new-cory-story-text::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 2px;
+}
+
+.new-cory-story-text::-webkit-scrollbar-thumb {
+    background: var(--shadow-color);
+    border-radius: 2px;
+}
+
+.new-cory-dialog-buttons {
+    position: absolute;
+    right: 30px;
+    bottom: 30px;
+    display: flex;
+    gap: 10px;
+    z-index: 3;
+}
+
+/* Cory Name Edit Dialog */
+.cory-name-edit-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1002;
+    opacity: 1;
+    transition: opacity 0.3s ease;
+}
+
+.cory-name-edit-overlay.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.cory-name-edit-container {
+    position: relative;
+    width: 400px;
+    height: 207px;
+}
+
+.name-input-container {
+    margin-top: 15px;
+    padding: 0 10px;
+}
+
+.name-input {
+    width: 100%;
+    height: 40px;
+    background: var(--text-white);
+    border: 1px solid #747474;
+    border-radius: 0;
+    font-family: 'Nunito', system-ui;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 1.3;
+    color: #000000;
+    padding: 0 10px;
+    outline: none;
+    box-sizing: border-box;
+}
+
+.name-input:focus {
+    border-color: var(--shadow-color);
+}
+
+.name-input::placeholder {
+    color: #747474;
+}
+
+.cory-name-edit-buttons {
+    position: absolute;
+    right: 30px;
+    bottom: 30px;
+    display: flex;
+    gap: 10px;
 }

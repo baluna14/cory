@@ -18,7 +18,9 @@ class Account {
         const accountData = {
             accountId: this.accountId,
             playTime: this.getTotalPlayTime(),
-            coryCollection: this.coryCollection,
+            coryCollection: this.coryCollection.map(cory =>
+                cory instanceof Cory ? cory.toJSON() : cory
+            ),
             representativeCoryId: this.representativeCoryId,
             createdAt: this.createdAt,
             lastLogin: Date.now()
@@ -39,7 +41,12 @@ class Account {
                 // Only load if account ID matches
                 if (accountData.accountId === this.accountId) {
                     this.playTime = accountData.playTime || 0;
-                    this.coryCollection = accountData.coryCollection || [];
+
+                    // Convert plain objects to Cory instances
+                    this.coryCollection = (accountData.coryCollection || []).map(coryData =>
+                        coryData instanceof Cory ? coryData : new Cory(coryData)
+                    );
+
                     this.representativeCoryId = accountData.representativeCoryId || null;
                     this.createdAt = accountData.createdAt || Date.now();
                     this.lastLogin = accountData.lastLogin || Date.now();
@@ -70,42 +77,13 @@ class Account {
 
     // Normalize Cory object to ensure all required properties exist
     normalizeCory(cory) {
-        const normalized = {
-            // Required basic properties
-            id: cory.id || `cory-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
-            name: cory.name || 'Unnamed Cory',
+        // If already a Cory instance, return as is
+        if (cory instanceof Cory) {
+            return cory;
+        }
 
-            // Visual properties
-            imageUrl: cory.imageUrl || 'assets/images/default_cory.png',
-            designFile: cory.designFile || cory.imageUrl || 'assets/images/default_cory.png',
-
-            // Color data (RGB format)
-            color: cory.color || {
-                r: 228,
-                g: 149,
-                h: 164,
-                hex: '#E495A4'
-            },
-
-            // Personality traits
-            personality: cory.personality || {
-                traits: ['친근한', '호기심 많은'],
-                description: '기본 성격입니다.'
-            },
-
-            // Story and background
-            story: cory.story || {
-                summary: '새로운 코리입니다.',
-                lines: ['안녕하세요!', '저는 새로운 코리예요.']
-            },
-
-            // Metadata
-            createdAt: cory.createdAt || Date.now(),
-            isRepresentative: cory.isRepresentative || false,
-            sourcePhoto: cory.sourcePhoto || null
-        };
-
-        return normalized;
+        // Create new Cory instance from plain object
+        return new Cory(cory);
     }
 
     // Add a Cory to the collection

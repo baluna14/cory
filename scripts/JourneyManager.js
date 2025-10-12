@@ -5,6 +5,7 @@ class JourneyManager {
         this.explorationState = 'idle'; // 'idle', 'exploring'
         this.explorationTimer = null;
         this.arrowPositions = null; // Store arrow positions
+        this.openAIService = new OpenAIService();
     }
 
     bindEvents() {
@@ -178,7 +179,7 @@ class JourneyManager {
         }, interval);
     }
 
-    completeExploration() {
+    async completeExploration() {
         if (this.explorationTimer) {
             clearInterval(this.explorationTimer);
             this.explorationTimer = null;
@@ -187,7 +188,7 @@ class JourneyManager {
         this.explorationState = 'idle';
 
         // Generate new Cory
-        const newCory = this.generateCoryFromPhoto();
+        const newCory = await this.generateCoryFromPhoto();
 
         // Add to mailbox
         this.app.hasNewAlarm = true;
@@ -243,19 +244,60 @@ class JourneyManager {
         }
     }
 
-    generateCoryFromPhoto() {
+    async generateCoryFromPhoto() {
         const coryNumber = this.app.account.getCoryCount() + 1;
         const paddedNumber = coryNumber.toString().padStart(3, '0');
 
-        // Mock Cory generation
+        let aiData = null;
+
+        // Try to use AI image analysis if OpenAI is configured
+        if (this.openAIService.isConfigured() && this.app.selectedPhoto && this.app.selectedPhoto.file) {
+            try {
+                console.log('Analyzing image with OpenAI...');
+                aiData = await this.openAIService.analyzeImageForCory(this.app.selectedPhoto.file);
+                console.log('AI analysis result:', aiData);
+            } catch (error) {
+                console.error('AI image analysis failed, using fallback:', error);
+                this.app.showToast('AI 분석에 실패했습니다. 기본 코리를 생성합니다.');
+            }
+        }
+
+        let coryData;
+
+        if (aiData) {
+            // Use AI-generated data
+            coryData = {
+                id: `photo-cory-${Date.now()}`,
+                name: aiData.name,
+                imageUrl: this.getRandomCoryImage(),
+                designFile: this.getRandomCoryImage(),
+                color: aiData.color,
+                personality: aiData.personality,
+                story: aiData.story,
+                sourcePhoto: this.app.selectedPhoto,
+                createdAt: Date.now(),
+                isRepresentative: false
+            };
+        } else {
+            // Fallback to mock generation
+            coryData = this.generateMockCoryData(paddedNumber);
+        }
+
+        // Create Cory instance and add to collection
+        const newCory = new Cory(coryData);
+        return this.app.account.addCory(newCory);
+    }
+
+    getRandomCoryImage() {
         const mockImages = [
             'assets/images/small_pattern_cory.png',
             'assets/images/midieum_pattern_cory.png',
             'assets/images/default_cory.png'
         ];
+        return mockImages[Math.floor(Math.random() * mockImages.length)];
+    }
 
-        const randomImage = mockImages[Math.floor(Math.random() * mockImages.length)];
-
+    generateMockCoryData(paddedNumber) {
         const mockColors = [
             { r: 255, g: 182, b: 193, hex: '#FFB6C1' },
             { r: 173, g: 216, b: 230, hex: '#ADD8E6' },
@@ -263,8 +305,6 @@ class JourneyManager {
             { r: 240, g: 230, b: 140, hex: '#F0E68C' },
             { r: 152, g: 251, b: 152, hex: '#98FB98' }
         ];
-
-        const randomColor = mockColors[Math.floor(Math.random() * mockColors.length)];
 
         const personalityOptions = [
             {
@@ -285,13 +325,14 @@ class JourneyManager {
             }
         ];
 
+        const randomColor = mockColors[Math.floor(Math.random() * mockColors.length)];
         const randomPersonality = personalityOptions[Math.floor(Math.random() * personalityOptions.length)];
 
-        const newCory = {
+        return {
             id: `photo-cory-${Date.now()}`,
             name: `Cory #${paddedNumber}`,
-            imageUrl: randomImage,
-            designFile: randomImage,
+            imageUrl: this.getRandomCoryImage(),
+            designFile: this.getRandomCoryImage(),
             color: randomColor,
             personality: randomPersonality,
             story: {
@@ -307,8 +348,6 @@ class JourneyManager {
             createdAt: Date.now(),
             isRepresentative: false
         };
-
-        return this.app.account.addCory(newCory);
     }
 }
 

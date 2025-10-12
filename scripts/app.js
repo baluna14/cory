@@ -17,6 +17,7 @@ class CoryApp {
         this.talkManager = new TalkManager(this);
         this.pocketManager = new PocketManager(this);
         this.profileManager = new ProfileManager(this);
+        this.geminiService = new GeminiService(); // For image URL resolution
 
         this.init();
     }
@@ -89,6 +90,9 @@ class CoryApp {
 
         // Update profile display with account data
         this.profileManager.updateProfileDisplay();
+
+        // Update representative Cory image if exists
+        this.updateRepresentativeCoryDisplay();
     }
 
     async loadAllViews() {
@@ -231,19 +235,42 @@ class CoryApp {
     }
 
     // Representative Cory management
-    setRepresentativeCory(coryOrId) {
+    async setRepresentativeCory(coryOrId) {
         const coryId = typeof coryOrId === 'string' ? coryOrId : coryOrId.id;
         const cory = this.account.setRepresentativeCory(coryId);
 
         if (cory) {
             const coryImage = document.getElementById('representativeCory');
             if (coryImage && cory.imageUrl) {
-                coryImage.src = cory.imageUrl;
+                try {
+                    const actualUrl = await this.geminiService.getImageUrl(cory.imageUrl);
+                    coryImage.src = actualUrl;
+                } catch (error) {
+                    console.error('Failed to load representative Cory image:', error);
+                    coryImage.src = 'assets/images/default_cory.png';
+                }
                 coryImage.alt = cory.name;
             }
         }
 
         return cory;
+    }
+
+    async updateRepresentativeCoryDisplay() {
+        const representativeCory = this.representativeCory;
+        if (representativeCory) {
+            const coryImage = document.getElementById('representativeCory');
+            if (coryImage && representativeCory.imageUrl) {
+                try {
+                    const actualUrl = await this.geminiService.getImageUrl(representativeCory.imageUrl);
+                    coryImage.src = actualUrl;
+                } catch (error) {
+                    console.error('Failed to load representative Cory image on init:', error);
+                    coryImage.src = 'assets/images/default_cory.png';
+                }
+                coryImage.alt = representativeCory.name;
+            }
+        }
     }
 
     // Tab switching

@@ -2,6 +2,7 @@
 class PocketManager {
     constructor(app) {
         this.app = app;
+        this.geminiService = new GeminiService(); // For image URL resolution
     }
 
     renderPocketGrid() {
@@ -30,10 +31,17 @@ class PocketManager {
 
                 if (cory) {
                     // Filled card
+                    const img = document.createElement('img');
+                    img.alt = cory.name;
+                    img.className = 'cory-card-image';
+
+                    // Handle IndexedDB URLs
+                    this.setImageSrc(img, cory.imageUrl);
+
                     card.innerHTML = `
-                        <img src="${cory.imageUrl}" alt="${cory.name}" class="cory-card-image">
                         <div class="cory-card-name">${cory.name}</div>
                     `;
+                    card.insertBefore(img, card.firstChild);
                     card.dataset.coryId = cory.id;
                     card.addEventListener('click', () => this.handleCoryCardClick(cory));
                 } else {
@@ -48,6 +56,16 @@ class PocketManager {
             }
 
             pocketGrid.appendChild(row);
+        }
+    }
+
+    async setImageSrc(imgElement, imageUrl) {
+        try {
+            const actualUrl = await this.geminiService.getImageUrl(imageUrl);
+            imgElement.src = actualUrl;
+        } catch (error) {
+            console.error('Failed to load image:', error);
+            imgElement.src = 'assets/images/default_cory.png';
         }
     }
 

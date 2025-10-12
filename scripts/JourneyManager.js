@@ -6,6 +6,8 @@ class JourneyManager {
         this.explorationTimer = null;
         this.arrowPositions = null; // Store arrow positions
         this.openAIService = new OpenAIService();
+        this.geminiService = new GeminiService();
+        this.aiAnalysisPromise = null; // Store AI analysis promise
     }
 
     bindEvents() {
@@ -126,7 +128,7 @@ class JourneyManager {
         reader.readAsDataURL(file);
     }
 
-    startExploration(selectedPhoto) {
+    async startExploration(selectedPhoto) {
         if (!selectedPhoto) return;
 
         // Store selected photo in app
@@ -140,6 +142,9 @@ class JourneyManager {
 
         this.explorationState = 'exploring';
         this.updateJourneyDisplay();
+
+        // Start AI analysis immediately when exploration begins
+        this.aiAnalysisPromise = this.startAIAnalysis();
 
         // Random exploration time between 5-10 seconds (for testing)
         const minDuration = 5000;
@@ -179,6 +184,29 @@ class JourneyManager {
         }, interval);
     }
 
+    async startAIAnalysis() {
+        if (!this.app.selectedPhoto || !this.app.selectedPhoto.file) {
+            return null;
+        }
+
+        try {
+            console.log('Starting AI analysis during exploration...');
+
+            // Start OpenAI analysis
+            if (this.openAIService.isConfigured()) {
+                const aiData = await this.openAIService.analyzeImageForCory(this.app.selectedPhoto.file);
+                console.log('AI analysis completed:', aiData);
+                return aiData;
+            } else {
+                console.log('OpenAI not configured, will use fallback');
+                return null;
+            }
+        } catch (error) {
+            console.error('AI analysis failed during exploration:', error);
+            return null;
+        }
+    }
+
     async completeExploration() {
         if (this.explorationTimer) {
             clearInterval(this.explorationTimer);
@@ -187,15 +215,26 @@ class JourneyManager {
 
         this.explorationState = 'idle';
 
-        // Generate new Cory
-        const newCory = await this.generateCoryFromPhoto();
+        // Wait for AI analysis to complete if still running
+        let aiData = null;
+        if (this.aiAnalysisPromise) {
+            try {
+                aiData = await this.aiAnalysisPromise;
+            } catch (error) {
+                console.error('AI analysis failed:', error);
+            }
+        }
+
+        // Generate new Cory using pre-analyzed data
+        const newCory = await this.generateCoryFromPhotoWithData(aiData);
 
         // Add to mailbox
         this.app.hasNewAlarm = true;
         this.app.updateAlarmDisplay();
 
-        // Reset photo selection
+        // Reset photo selection and AI analysis
         this.app.selectedPhoto = null;
+        this.aiAnalysisPromise = null;
 
         // Generate new arrow positions for next exploration
         this.positionArrowsRandomly();
@@ -212,6 +251,7 @@ class JourneyManager {
 
         this.explorationState = 'idle';
         this.app.selectedPhoto = null;
+        this.aiAnalysisPromise = null; // Cancel AI analysis
 
         // Generate new arrow positions for next exploration
         this.positionArrowsRandomly();
@@ -245,31 +285,22 @@ class JourneyManager {
     }
 
     async generateCoryFromPhoto() {
+        // This method is kept for backward compatibility
+        return await this.generateCoryFromPhotoWithData(null);
+    }
+
+    async generateCoryFromPhotoWithData(aiData) {
         const coryNumber = this.app.account.getCoryCount() + 1;
         const paddedNumber = coryNumber.toString().padStart(3, '0');
-
-        let aiData = null;
-
-        // Try to use AI image analysis if OpenAI is configured
-        if (this.openAIService.isConfigured() && this.app.selectedPhoto && this.app.selectedPhoto.file) {
-            try {
-                console.log('Analyzing image with OpenAI...');
-                aiData = await this.openAIService.analyzeImageForCory(this.app.selectedPhoto.file);
-                console.log('AI analysis result:', aiData);
-            } catch (error) {
-                console.error('AI image analysis failed, using fallback:', error);
-                this.app.showToast('AI 분석에 실패했습니다. 기본 코리를 생성합니다.');
-            }
-        }
 
         let coryData;
 
         if (aiData) {
-            // Use AI-generated data
+            // Use pre-analyzed AI data
             coryData = {
                 id: `photo-cory-${Date.now()}`,
                 name: aiData.name,
-                imageUrl: this.getRandomCoryImage(),
+                imageUrl: this.getRandomCoryImage(), // This will be updated with generated image
                 designFile: this.getRandomCoryImage(),
                 color: aiData.color,
                 personality: aiData.personality,
@@ -278,6 +309,25 @@ class JourneyManager {
                 createdAt: Date.now(),
                 isRepresentative: false
             };
+
+            // Try to generate custom image with Gemini
+            if (this.geminiService.isConfigured()) {
+                try {
+                    console.log('Generating custom image with Gemini...');
+                    const baseImagePath = this.geminiService.getDefaultCoryImagePath();
+                    const generatedImageUrl = await this.geminiService.generateCoryImage(baseImagePath, aiData);
+
+                    // Update Cory data with generated image
+                    coryData.imageUrl = generatedImageUrl;
+                    coryData.designFile = generatedImageUrl;
+                    console.log('Custom image generated successfully:', generatedImageUrl);
+                } catch (error) {
+                    console.error('Gemini image generation failed, using default image:', error);
+                    this.app.showToast('이미지 생성에 실패했습니다. 기본 이미지를 사용합니다.');
+                }
+            } else {
+                console.log('Gemini API not configured, using default image');
+            }
         } else {
             // Fallback to mock generation
             coryData = this.generateMockCoryData(paddedNumber);

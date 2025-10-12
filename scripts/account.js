@@ -18,20 +18,74 @@ class Account {
         const accountData = {
             accountId: this.accountId,
             playTime: this.getTotalPlayTime(),
-            coryCollection: this.coryCollection.map(cory =>
-                cory instanceof Cory ? cory.toJSON() : cory
-            ),
+            coryCollection: this.coryCollection.map(cory => {
+                const coryData = cory instanceof Cory ? cory.toJSON() : cory;
+
+                // Don't save large data to localStorage
+                return {
+                    ...coryData,
+                    sourcePhoto: coryData.sourcePhoto ? {
+                        name: coryData.sourcePhoto.name,
+                        size: coryData.sourcePhoto.size,
+                        type: coryData.sourcePhoto.type
+                        // Remove dataUrl and file to save space
+                    } : null
+                };
+            }),
             representativeCoryId: this.representativeCoryId,
             createdAt: this.createdAt,
             lastLogin: Date.now()
         };
 
-        localStorage.setItem('cory_account', JSON.stringify(accountData));
-        console.log('Account data saved to localStorage');
+        try {
+            localStorage.setItem('cory_account', JSON.stringify(accountData));
+            console.log('Account data saved to localStorage');
+        } catch (error) {
+            if (error.name === 'QuotaExceededError') {
+                console.warn('localStorage quota exceeded, cleaning up old data...');
+                this.cleanupStorageAndRetry(accountData);
+            } else {
+                console.error('Error saving account data:', error);
+            }
+        }
+    }
+
+    // Cleanup storage and retry saving
+    cleanupStorageAndRetry(accountData) {
+        try {
+            // Clean up generated images first
+            if (window.generatedImages) {
+                window.generatedImages.forEach((imageData, id) => {
+                    URL.revokeObjectURL(imageData.url);
+                });
+                window.generatedImages.clear();
+                console.log('Cleaned up generated images');
+            }
+
+            // Remove image URLs from Cory data (keep only essential data)
+            accountData.coryCollection = accountData.coryCollection.map(cory => ({
+                ...cory,
+                imageUrl: cory.imageUrl && cory.imageUrl.startsWith('blob:') ?
+                    'assets/images/default_cory.png' : cory.imageUrl,
+                designFile: cory.designFile && cory.designFile.startsWith('blob:') ?
+                    'assets/images/default_cory.png' : cory.designFile,
+                sourcePhoto: null // Remove source photo entirely
+            }));
+
+            localStorage.setItem('cory_account', JSON.stringify(accountData));
+            console.log('Account data saved after cleanup');
+        } catch (retryError) {
+            console.error('Failed to save even after cleanup:', retryError);
+            this.app?.showToast?.('저장 공간이 부족합니다. 일부 데이터가 손실될 수 있습니다.');
+        }
     }
 
     // Load account data from localStorage
     loadFromStorage() {
+        // 모든 로컬스토리지 삭제 (for TEST)
+        // localStorage.clear();
+        // sessionStorage.clear();
+
         const savedData = localStorage.getItem('cory_account');
 
         if (savedData) {

@@ -4,6 +4,7 @@ class TalkManager {
         this.app = app;
         this.chatMessages = [];
         this.openAIService = new OpenAIService();
+        this.geminiService = new GeminiService(); // For image URL resolution
         this.maxChatHistory = 30; // Maximum chat history to keep
         this.isWaitingForResponse = false; // Prevent multiple concurrent requests
     }
@@ -148,8 +149,7 @@ class TalkManager {
         // Update cory image
         const talkCoryImage = document.getElementById('talkCoryImage');
         if (talkCoryImage && this.app.representativeCory) {
-            talkCoryImage.src = this.app.representativeCory.imageUrl;
-            talkCoryImage.alt = this.app.representativeCory.name;
+            this.updateCoryImage(talkCoryImage, this.app.representativeCory);
         }
 
         // Initialize chat with sample message if empty
@@ -158,6 +158,17 @@ class TalkManager {
         }
 
         this.renderChatMessages();
+    }
+
+    async updateCoryImage(imgElement, cory) {
+        try {
+            const actualUrl = await this.geminiService.getImageUrl(cory.imageUrl);
+            imgElement.src = actualUrl;
+        } catch (error) {
+            console.error('Failed to load talk Cory image:', error);
+            imgElement.src = 'assets/images/default_cory.png';
+        }
+        imgElement.alt = cory.name;
     }
 
     async sendMessage() {

@@ -115,6 +115,8 @@ class DialogManager {
             this.app.setRepresentativeCory(this.selectedCoryForRepresentative.id);
             this.app.showToast(`${this.selectedCoryForRepresentative.name}이(가) 대표 코리로 설정되었습니다!`);
             this.app.pocketManager.renderPocketGrid();
+            // Clear chat history when changing representative Cory
+            this.app.talkManager.clearChatHistory();
         }
         this.closeRepresentativeDialog();
     }
@@ -378,6 +380,8 @@ class DialogManager {
         if (this.pendingNewCory) {
             this.app.setRepresentativeCory(this.pendingNewCory.id);
             this.app.showToast(`${this.pendingNewCory.name}이(가) 대표 코리로 설정되었습니다!`);
+            // Clear chat history when changing representative Cory
+            this.app.talkManager.clearChatHistory();
             this.pendingNewCory = null;
         }
     }
@@ -401,6 +405,8 @@ class DialogManager {
 
             this.app.setRepresentativeCory(this.pendingNewCory.id);
             this.app.showToast(`${newName}이(가) 대표 코리로 설정되었습니다!`);
+            // Clear chat history when changing representative Cory
+            this.app.talkManager.clearChatHistory();
             this.pendingNewCory = null;
         }
 

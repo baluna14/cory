@@ -310,6 +310,12 @@ class TalkManager {
         return new Promise(resolve => setTimeout(resolve, ms));
     }
 
+    clearChatHistory() {
+        // Clear all chat messages
+        this.chatMessages = [];
+        console.log('Chat history cleared');
+    }
+
     generateCoryResponse(userMessage) {
         // Simple keyword-based response generation (fallback when OpenAI is not configured)
         const responses = {

@@ -7,7 +7,7 @@ class JourneyManager {
         this.arrowPositions = null; // Store arrow positions
         this.openAIService = new OpenAIService();
         this.geminiService = new GeminiService();
-        this.aiAnalysisPromise = null; // Store AI analysis promise
+        this.generatedCory = null; // Store generated Cory reference
     }
 
     bindEvents() {
@@ -143,12 +143,14 @@ class JourneyManager {
         this.explorationState = 'exploring';
         this.updateJourneyDisplay();
 
-        // Start AI analysis immediately when exploration begins
-        this.aiAnalysisPromise = this.startAIAnalysis();
+        // Start AI analysis and Cory generation immediately (in background)
+        this.startAIAnalysisAndGenerateCory().catch(error => {
+            console.error('Cory generation failed:', error);
+        });
 
-        // Random exploration time between 5-10 seconds (for testing)
-        const minDuration = 5000;
-        const maxDuration = 10000;
+        // Random exploration time between 15-60 seconds (to allow API time)
+        const minDuration = 60000;
+        const maxDuration = 120000;
         const duration = Math.floor(Math.random() * (maxDuration - minDuration + 1)) + minDuration;
 
         const interval = 100;
@@ -184,27 +186,75 @@ class JourneyManager {
         }, interval);
     }
 
-    async startAIAnalysis() {
+    async startAIAnalysisAndGenerateCory() {
         if (!this.app.selectedPhoto || !this.app.selectedPhoto.file) {
-            return null;
+            console.log('No photo selected, generating mock Cory');
+            const coryNumber = this.app.account.getCoryCount() + 1;
+            const paddedNumber = coryNumber.toString().padStart(3, '0');
+            const coryData = this.generateMockCoryData(paddedNumber);
+            const newCory = new Cory(coryData);
+            this.generatedCory = this.app.account.addCory(newCory);
+            return;
         }
 
         try {
-            console.log('Starting AI analysis during exploration...');
+            console.log('Starting AI analysis immediately...');
+
+            let aiData = null;
 
             // Start OpenAI analysis
             if (this.openAIService.isConfigured()) {
-                const aiData = await this.openAIService.analyzeImageForCory(this.app.selectedPhoto.file);
+                aiData = await this.openAIService.analyzeImageForCory(this.app.selectedPhoto.file);
                 console.log('AI analysis completed:', aiData);
-                return aiData;
             } else {
                 console.log('OpenAI not configured, will use fallback');
-                return null;
             }
+
+            // Generate Cory immediately after AI analysis
+            console.log('Generating Cory with AI data...');
+            const newCory = await this.generateCoryFromPhotoWithData(aiData);
+            this.generatedCory = newCory;
+            console.log('Cory generated and saved:', newCory.name);
+
         } catch (error) {
-            console.error('AI analysis failed during exploration:', error);
-            return null;
+            console.error('AI analysis or Cory generation failed:', error);
+
+            // Check if it's a parsing error
+            if (error.message && error.message.includes('parse')) {
+                console.error('Parsing error detected, Cory escaped!');
+                this.handleCoryEscaped();
+                return;
+            }
+
+            // For other errors, fallback to mock generation
+            const coryNumber = this.app.account.getCoryCount() + 1;
+            const paddedNumber = coryNumber.toString().padStart(3, '0');
+            const coryData = this.generateMockCoryData(paddedNumber);
+            const newCory = new Cory(coryData);
+            this.generatedCory = this.app.account.addCory(newCory);
         }
+    }
+
+    handleCoryEscaped() {
+        // Stop exploration timer
+        if (this.explorationTimer) {
+            clearInterval(this.explorationTimer);
+            this.explorationTimer = null;
+        }
+
+        // Reset exploration state
+        this.explorationState = 'idle';
+        this.app.selectedPhoto = null;
+        this.generatedCory = null;
+
+        // Generate new arrow positions for next exploration
+        this.positionArrowsRandomly();
+
+        // Update UI
+        this.updateJourneyDisplay();
+
+        // Show escape message
+        this.app.showToast('앗! 새로운 코리가 도망갔어요!', 5000);
     }
 
     async completeExploration() {
@@ -215,26 +265,16 @@ class JourneyManager {
 
         this.explorationState = 'idle';
 
-        // Wait for AI analysis to complete if still running
-        let aiData = null;
-        if (this.aiAnalysisPromise) {
-            try {
-                aiData = await this.aiAnalysisPromise;
-            } catch (error) {
-                console.error('AI analysis failed:', error);
-            }
-        }
+        // Cory already generated in background, just show alarm
+        console.log('Exploration timer completed, showing alarm for generated Cory');
 
-        // Generate new Cory using pre-analyzed data
-        const newCory = await this.generateCoryFromPhotoWithData(aiData);
-
-        // Add to mailbox
+        // Add to mailbox (Cory already exists in collection)
         this.app.hasNewAlarm = true;
         this.app.updateAlarmDisplay();
 
-        // Reset photo selection and AI analysis
+        // Reset photo selection and generated Cory reference
         this.app.selectedPhoto = null;
-        this.aiAnalysisPromise = null;
+        this.generatedCory = null;
 
         // Generate new arrow positions for next exploration
         this.positionArrowsRandomly();
@@ -251,7 +291,12 @@ class JourneyManager {
 
         this.explorationState = 'idle';
         this.app.selectedPhoto = null;
-        this.aiAnalysisPromise = null; // Cancel AI analysis
+
+        // If Cory was already generated, remove it from collection
+        if (this.generatedCory) {
+            this.app.account.removeCory(this.generatedCory.id);
+            this.generatedCory = null;
+        }
 
         // Generate new arrow positions for next exploration
         this.positionArrowsRandomly();

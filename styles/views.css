@@ -21,9 +21,8 @@
 
 .view-home .cory-container {
     position: absolute;
-    left: 50%;
-    bottom: 150px;
-    transform: translateX(-50%);
+    right: 50px;
+    bottom: 0px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -31,8 +30,8 @@
 }
 
 .view-home .representative-cory {
-    width: 280px;
-    height: 260px;
+    width: 200px;
+    height: 200px;
     cursor: pointer;
     transition: transform 0.2s ease;
     object-fit: contain;
@@ -316,7 +315,7 @@
 .chat-input-area {
     position: absolute;
     left: 20px;
-    bottom: 80px;
+    bottom: 20px;
     right: 20px;
     height: 61px;
     display: flex;
@@ -518,49 +517,6 @@
     background-position: center;
     background-repeat: no-repeat;
     z-index: 1;
-}
-
-/* Journey Leaves Layers */
-.journey-leaves-layer {
-    position: absolute;
-    background-image: url('../assets/images/leaves3.png');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    opacity: 0.7;
-    z-index: 2;
-}
-
-.journey-leaves-1 {
-    left: 31.71px;
-    top: -9px;
-    width: 477.84px;
-    height: 783.2px;
-}
-
-.journey-leaves-2 {
-    left: -382.15px;
-    top: 56.07px;
-    width: 1056.29px;
-    height: 1198.5px;
-}
-
-/* Journey Title */
-.journey-title {
-    position: absolute;
-    left: 27px;
-    top: 34px;
-    width: 206px;
-    height: 30px;
-    font-family: var(--font-pixel);
-    font-weight: 400;
-    font-size: 30px;
-    line-height: 1em;
-    letter-spacing: -2.5%;
-    color: var(--primary-pink);
-    text-shadow: var(--text-shadow);
-    margin: 0;
-    z-index: 10;
 }
 
 /* Journey Radar Container */

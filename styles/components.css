@@ -3,10 +3,10 @@
 /* Alert Message */
 .alert-message {
     position: absolute;
-    top: 90px;
-    right: 30px;
+    top: 30px;
+    right: 100px;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
     opacity: 1;
     transition: opacity 0.3s ease;
@@ -64,17 +64,16 @@
 }
 
 .message-arrow {
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    transform: translateX(-50%) rotate(180deg);
-    width: 12px;
-    height: 18px;
+    position: relative;
+    width: 18px;
+    height: 12px;
     background-image: url('../assets/images/arrow.svg');
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
     filter: drop-shadow(var(--box-shadow));
+    transform: rotate(90deg);
+    margin-left: 8px;
 }
 
 /* Buttons */

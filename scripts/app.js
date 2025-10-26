@@ -307,16 +307,6 @@ class CoryApp {
             headerTitle.textContent = titles[tabName] || tabName;
         }
 
-        // Show/hide header for journey view
-        const mainHeader = document.querySelector('.header');
-        if (mainHeader) {
-            if (tabName === 'journey') {
-                mainHeader.style.display = 'none';
-            } else {
-                mainHeader.style.display = 'flex';
-            }
-        }
-
         // Show/hide alarm container based on current view
         const alarmContainer = document.getElementById('alarmContainer');
         if (alarmContainer) {

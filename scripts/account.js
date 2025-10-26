@@ -83,8 +83,8 @@ class Account {
     // Load account data from localStorage
     loadFromStorage() {
         // 모든 로컬스토리지 삭제 (for TEST)
-        // localStorage.clear();
-        // sessionStorage.clear();
+        localStorage.clear();
+        sessionStorage.clear();
 
         const savedData = localStorage.getItem('cory_account');
 

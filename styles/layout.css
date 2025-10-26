@@ -58,29 +58,7 @@
     justify-content: center;
 }
 
-/* Cory Container */
-.cory-container {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -20%);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    z-index: 5;
-}
-
-.representative-cory {
-    width: 280px;
-    height: 260px;
-    cursor: pointer;
-    transition: transform 0.2s ease;
-    object-fit: contain;
-}
-
-.representative-cory:hover {
-    transform: scale(1.05);
-}
+/* Cory Container - styles moved to views.css for view-specific positioning */
 
 .cory-arrow {
     position: absolute;
@@ -153,7 +131,7 @@
 
 .nav-label {
     position: absolute;
-    bottom: 44px; /* 60px - 16px from bottom of icon */
+    bottom: 30px; /* 60px - 16px from bottom of icon */
     font-family: var(--font-pixel);
     font-size: 14px;
     line-height: 1em;

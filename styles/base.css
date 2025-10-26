@@ -81,36 +81,20 @@ body {
     background-repeat: no-repeat;
 }
 
-#main-container.journey-view::before {
+#main-container.journey-view::after {
     content: '';
     position: absolute;
-    top: -20px;
-    left: 50px;
-    width: 400px;
-    height: 600px;
+    top: -200px;
+    left: -200px;
+    width: 900px;
+    height: 1100px;
     background-image: url('../assets/images/leaves3.png');
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
     opacity: 0.6;
     z-index: 1;
-    transform: rotate(-5deg);
-}
-
-#main-container.journey-view::after {
-    content: '';
-    position: absolute;
-    top: 100px;
-    left: -150px;
-    width: 500px;
-    height: 700px;
-    background-image: url('../assets/images/leaves3.png');
-    background-size: contain;
-    background-position: center;
-    background-repeat: no-repeat;
-    opacity: 0.5;
-    z-index: 1;
-    transform: rotate(10deg);
+    transform: rotate(270deg);
 }
 
 #main-container.pocket-view {
